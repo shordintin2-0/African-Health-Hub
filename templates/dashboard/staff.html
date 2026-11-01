@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Medical Staff Dashboard</h2>
+        <div class="role-badge role-staff mb-4">Medical Staff</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Patient Management</h5>
+                <p class="card-text">View and manage patient records</p>
+                <a href="{{ url_for('staff.manage_patients') }}" class="btn btn-primary">Manage Patients</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Appointments</h5>
+                <p class="card-text">Manage patient appointments</p>
+                <a href="{{ url_for('staff.appointments') }}" class="btn btn-primary">View Appointments</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Medical Records</h5>
+                <p class="card-text">Access patient medical records</p>
+                <a href="{{ url_for('staff.medical_records') }}" class="btn btn-primary">View Records</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Today's Appointments</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in today_appointments %}
+                        <tr>
+                            <td>{{ appointment.time }}</td>
+                            <td>{{ appointment.patient_name }}</td>
+                            <td>{{ appointment.type }}</td>
+                            <td>
+                                <a href="{{ url_for('staff.view_appointment', id=appointment.id) }}" class="btn btn-sm btn-primary">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Recent Patient Updates</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Patient</th>
+                            <th>Update Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for update in recent_updates %}
+                        <tr>
+                            <td>{{ update.date }}</td>
+                            <td>{{ update.patient_name }}</td>
+                            <td>{{ update.type }}</td>
+                            <td>
+                                <a href="{{ url_for('staff.view_update', id=update.id) }}" class="btn btn-sm btn-primary">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

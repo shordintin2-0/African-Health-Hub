@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+
+{% block title %}Donate - African Health Hub{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card hero-card text-white">
+                <img src="{{ url_for('static', filename='images/th.jpeg') }}" class="card-img hero-image" alt="Donate Banner">
+                <div class="card-img-overlay d-flex flex-column justify-content-center text-center p-4" style="background-color: rgba(0, 0, 0, 0.5);">
+                    <h1 class="display-4 fw-bold">Support Our Mission</h1>
+                    <p class="lead">Your donation helps provide essential healthcare services across Africa</p>
+                    <a href="#donate-form" class="btn btn-danger btn-lg mt-3 align-self-center">Donate Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impact Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2>Your Impact</h2>
+            <p class="lead">See how your donation makes a difference</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 text-center border-0 shadow">
+                <div class="card-body">
+                    <div class="display-4 mb-2 text-danger">$25</div>
+                    <h5 class="card-title">Provides</h5>
+                    <p class="card-text">Basic medical supplies for 10 patients</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 text-center border-0 shadow">
+                <div class="card-body">
+                    <div class="display-4 mb-2 text-danger">$50</div>
+                    <h5 class="card-title">Provides</h5>
+                    <p class="card-text">Medications and treatment for a family of 4</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 text-center border-0 shadow">
+                <div class="card-body">
+                    <div class="display-4 mb-2 text-danger">$100</div>
+                    <h5 class="card-title">Provides</h5>
+                    <p class="card-text">Emergency medical services for a rural community</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 text-center border-0 shadow">
+                <div class="card-body">
+                    <div class="display-4 mb-2 text-danger">$250</div>
+                    <h5 class="card-title">Provides</h5>
+                    <p class="card-text">Training for a community health worker</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Initiatives -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Our Healthcare Initiatives</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="initiative-item">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="initiative-icon bg-danger text-white rounded-circle me-3">
+                                        <i class="fas fa-hospital"></i>
+                                    </div>
+                                    <h4 class="mb-0">Rural Clinic Development</h4>
+                                </div>
+                                <p>Building and equipping medical facilities in underserved rural areas to provide essential healthcare services to communities with limited access.</p>
+                                <div class="progress mb-2" style="height: 10px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <small>Current: $65,000</small>
+                                    <small>Goal: $100,000</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="initiative-item">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="initiative-icon bg-danger text-white rounded-circle me-3">
+                                        <i class="fas fa-user-md"></i>
+                                    </div>
+                                    <h4 class="mb-0">Medical Staff Training</h4>
+                                </div>
+                                <p>Training local healthcare providers with modern medical practices and technologies to improve care quality and sustainability in African communities.</p>
+                                <div class="progress mb-2" style="height: 10px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 42%;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <small>Current: $21,000</small>
+                                    <small>Goal: $50,000</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="initiative-item">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="initiative-icon bg-danger text-white rounded-circle me-3">
+                                        <i class="fas fa-tablets"></i>
+                                    </div>
+                                    <h4 class="mb-0">Medication Access Program</h4>
+                                </div>
+                                <p>Ensuring essential medications are available to those who need them most through partnerships with pharmaceutical companies and improved supply chains.</p>
+                                <div class="progress mb-2" style="height: 10px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <small>Current: $34,000</small>
+                                    <small>Goal: $40,000</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="initiative-item">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="initiative-icon bg-danger text-white rounded-circle me-3">
+                                        <i class="fas fa-laptop-medical"></i>
+                                    </div>
+                                    <h4 class="mb-0">Telehealth Expansion</h4>
+                                </div>
+                                <p>Expanding telehealth services to connect remote communities with medical specialists, providing expert care without the need for long-distance travel.</p>
+                                <div class="progress mb-2" style="height: 10px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 28%;" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <small>Current: $14,000</small>
+                                    <small>Goal: $50,000</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Form -->
+    <div class="row mb-5" id="donate-form">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Make a Donation</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('process_donation') }}" method="post">
+                        <div class="row mb-4">
+                            <div class="col text-center">
+                                <div class="btn-group donation-options" role="group" aria-label="Donation amount options">
+                                    <input type="radio" class="btn-check" name="donation_amount" id="amount25" value="25" autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="amount25">$25</label>
+
+                                    <input type="radio" class="btn-check" name="donation_amount" id="amount50" value="50" autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="amount50">$50</label>
+
+                                    <input type="radio" class="btn-check" name="donation_amount" id="amount100" value="100" autocomplete="off" checked>
+                                    <label class="btn btn-outline-danger" for="amount100">$100</label>
+
+                                    <input type="radio" class="btn-check" name="donation_amount" id="amount250" value="250" autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="amount250">$250</label>
+
+                                    <input type="radio" class="btn-check" name="donation_amount" id="amountCustom" value="custom" autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="amountCustom">Custom</label>
+                                </div>
+                                <div class="mt-3 custom-amount-container" style="display: none;">
+                                    <label for="custom_amount" class="form-label">Enter amount ($)</label>
+                                    <input type="number" class="form-control w-50 mx-auto" id="custom_amount" name="custom_amount" placeholder="Enter amount">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col text-center">
+                                <div class="btn-group donation-frequency" role="group" aria-label="Donation frequency options">
+                                    <input type="radio" class="btn-check" name="donation_frequency" id="one-time" value="one-time" autocomplete="off" checked>
+                                    <label class="btn btn-outline-secondary" for="one-time">One-time</label>
+
+                                    <input type="radio" class="btn-check" name="donation_frequency" id="monthly" value="monthly" autocomplete="off">
+                                    <label class="btn btn-outline-secondary" for="monthly">Monthly</label>
+
+                                    <input type="radio" class="btn-check" name="donation_frequency" id="quarterly" value="quarterly" autocomplete="off">
+                                    <label class="btn btn-outline-secondary" for="quarterly">Quarterly</label>
+
+                                    <input type="radio" class="btn-check" name="donation_frequency" id="annually" value="annually" autocomplete="off">
+                                    <label class="btn btn-outline-secondary" for="annually">Annually</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h5>Personal Information</h5>
+                                <div class="mb-3">
+                                    <label for="donor_name" class="form-label">Full Name*</label>
+                                    <input type="text" class="form-control" id="donor_name" name="donor_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="donor_email" class="form-label">Email Address*</label>
+                                    <input type="email" class="form-control" id="donor_email" name="donor_email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="donor_phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="donor_phone" name="donor_phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="donor_country" class="form-label">Country*</label>
+                                    <select class="form-select" id="donor_country" name="donor_country" required>
+                                        <option value="" selected disabled>Select Country</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="United States">United States</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <h5>Payment Information</h5>
+                                <div class="mb-3">
+                                    <label for="card_number" class="form-label">Card Number*</label>
+                                    <input type="text" class="form-control" id="card_number" name="card_number" placeholder="XXXX XXXX XXXX XXXX" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="expiry_date" class="form-label">Expiry Date*</label>
+                                        <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label">CVV*</label>
+                                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="initiative" class="form-label">Designate your donation to:</label>
+                                    <select class="form-select" id="initiative" name="initiative">
+                                        <option value="General">Where Needed Most</option>
+                                        <option value="Rural Clinic Development">Rural Clinic Development</option>
+                                        <option value="Medical Staff Training">Medical Staff Training</option>
+                                        <option value="Medication Access Program">Medication Access Program</option>
+                                        <option value="Telehealth Expansion">Telehealth Expansion</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="tax_receipt" name="tax_receipt" checked>
+                            <label class="form-check-label" for="tax_receipt">Send me a tax receipt by email</label>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">Subscribe to our newsletter for updates</label>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg">Complete Donation</button>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Your donation is secure and encrypted. We never store your full credit card information.</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recognition Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Our Generous Supporters</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="text-center mb-4">Thank you to our major donors and partners</h5>
+                    <div class="row">
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="p-3 bg-light rounded donor-logo">
+                                <i class="fas fa-building fa-3x text-secondary"></i>
+                                <p class="mt-2 mb-0">Global Health Foundation</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="p-3 bg-light rounded donor-logo">
+                                <i class="fas fa-hospital fa-3x text-secondary"></i>
+                                <p class="mt-2 mb-0">African Medical Association</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="p-3 bg-light rounded donor-logo">
+                                <i class="fas fa-industry fa-3x text-secondary"></i>
+                                <p class="mt-2 mb-0">Health Tech Industries</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="p-3 bg-light rounded donor-logo">
+                                <i class="fas fa-university fa-3x text-secondary"></i>
+                                <p class="mt-2 mb-0">Continental Bank</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other Ways to Help -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-light shadow">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Other Ways to Support</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-users fa-3x text-danger mb-3"></i>
+                                    <h5>Corporate Partnerships</h5>
+                                    <p>Partner with us to make a significant impact on healthcare in Africa while fulfilling your corporate social responsibility goals.</p>
+                                    <a href="#" class="btn btn-outline-danger">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-gift fa-3x text-danger mb-3"></i>
+                                    <h5>Legacy Giving</h5>
+                                    <p>Make a lasting impact by including African Health Hub in your will or estate planning.</p>
+                                    <a href="#" class="btn btn-outline-danger">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hands-helping fa-3x text-danger mb-3"></i>
+                                    <h5>Volunteer Your Time</h5>
+                                    <p>Contribute your skills and time to help us expand healthcare access across Africa.</p>
+                                    <a href="{{ url_for('volunteer') }}" class="btn btn-outline-danger">Volunteer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-card {
+    overflow: hidden;
+    border: none;
+    border-radius: 10px;
+}
+
+.hero-image {
+    height: 400px;
+    object-fit: cover;
+    filter: brightness(0.8);
+}
+
+.initiative-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+}
+
+.donation-options .btn, .donation-frequency .btn {
+    padding: 10px 20px;
+}
+
+.donor-logo {
+    transition: all 0.3s ease;
+}
+
+.donor-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
+
+{% block scripts %}
+<script>
+    // Show/hide custom amount field
+    $(document).ready(function() {
+        $('input[name="donation_amount"]').change(function() {
+            if ($(this).val() === 'custom') {
+                $('.custom-amount-container').show();
+            } else {
+                $('.custom-amount-container').hide();
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

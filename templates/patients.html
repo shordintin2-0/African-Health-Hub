@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>African Health Hub - Patients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing CSS styles */
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">African Health Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patients') }}">Patients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('add_patient') }}">Add Patient</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('medical_staff') }}">Medical Staff</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 2rem 1rem;">
+        <h1 class="text-center mb-4">Patients</h1>
+
+        <!-- Flash Messages from Flask -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <a href="{{ url_for('add_patient') }}" class="btn btn-primary mb-3">
+            <i class="bi bi-plus-circle" style="margin-right: 0.5rem;"></i> Add New Patient
+        </a>
+
+        <div style="background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);">
+           <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Medical History</th>
+            <th>Registration Date</th>
+            <th>Last Updated</th>
+            <th>Risk Level</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.patient_id }}</td>
+            <td>{{ patient.first_name }}</td>
+            <td>{{ patient.last_name }}</td>
+            <td>{{ patient.date_of_birth.strftime('%Y-%m-%d') if patient.date_of_birth }}</td>
+            <td>{{ patient.gender }}</td>
+            <td>{{ patient.contact_number }}</td>
+            <td>{{ patient.email }}</td>
+            <td>{{ patient.address }}</td>
+            <td>{{ patient.medical_history|truncate(30) }}</td>
+            <td>{{ patient.registration_date.strftime('%Y-%m-%d %H:%M') if patient.registration_date }}</td>
+            <td>{{ patient.last_updated.strftime('%Y-%m-%d %H:%M') if patient.last_updated }}</td>
+            <td>
+                <span class="badge
+                    {% if patient.risk_level == 'High' %}bg-danger
+                    {% elif patient.risk_level == 'Medium' %}bg-warning
+                    {% else %}bg-success{% endif %}">
+                    {{ patient.risk_level }}
+                </span>
+            </td>
+            <td>
+                <a href="/edit/{{ patient.patient_id }}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <form action="/delete/{{ patient.patient_id }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this patient?');">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="13" class="text-center">No patients found in the database</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        </div>
+    </div>
+
+    <footer class="mt-5">
+        <div class="text-center p-3" style="background-color: transparent !important;">
+            © 2023 African Health Hub. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

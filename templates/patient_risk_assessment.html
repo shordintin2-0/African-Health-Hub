@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Patient Risk Assessment - {{ patient.first_name }} {{ patient.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('patient_profile', patient_id=patient.id) }}">Patient Profile</a></li>
+                    <li class="breadcrumb-item active">Risk Assessment</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Risk Assessment for {{ patient.first_name }} {{ patient.last_name }}</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Patient Age</h5>
+                            <p class="display-4 mb-0">{{ patient_age if patient_age is not none else 'N/A' }}</p>
+                            <p class="text-muted">Years</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Risk Level</h5>
+                            <p class="display-4 mb-0">
+                                <span class="badge {% if risk_level == 'High' %}bg-danger{% elif risk_level == 'Medium' %}bg-warning{% elif risk_level == 'Low' %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ risk_level }}
+                                </span>
+                            </p>
+                            <p class="text-muted">Based on {{ medical_records|length }} medical records</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Last Check-up</h5>
+                            {% if medical_records and medical_records|length > 0 %}
+                                <p class="display-4 mb-0">{{ medical_records[0].record_date.strftime('%d %b') }}</p>
+                                <p class="text-muted">{{ medical_records[0].record_date.strftime('%Y') }}</p>
+                            {% else %}
+                                <p class="display-4 mb-0">N/A</p>
+                                <p class="text-muted">No records</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Patient Information</h5>
+                    <table class="table">
+                        <tr>
+                            <th>Full Name</th>
+                            <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td>{{ patient.date_of_birth.strftime('%d %b, %Y') if patient.date_of_birth else 'Not provided' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td>{{ patient.gender if patient.gender else 'Not provided' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>{{ patient.phone if patient.phone else 'Not provided' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ patient.email }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h5>Medical History</h5>
+                    <div class="p-3 bg-light rounded">
+                        {% if patient.medical_history %}
+                            {{ patient.medical_history|replace('[HIGH RISK]', '')|replace('[MEDIUM RISK]', '')|replace('[LOW RISK]', '') }}
+                        {% else %}
+                            <p class="text-muted">No medical history recorded.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Upcoming Appointments</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Doctor</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if appointments %}
+                            {% for appointment in appointments %}
+                                {% if appointment.appointment_date > now %}
+                                <tr>
+                                    <td>{{ appointment.appointment_date.strftime('%d %b, %Y %H:%M') }}</td>
+                                    <td>Dr. {{ appointment.staff.first_name }} {{ appointment.staff.last_name }}</td>
+                                    <td>{{ appointment.appointment_type }}</td>
+                                    <td>
+                                        <span class="badge {% if appointment.status == 'Scheduled' %}bg-primary{% elif appointment.status == 'Completed' %}bg-success{% elif appointment.status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}">
+                                            {{ appointment.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ appointment.notes if appointment.notes else '-' }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No upcoming appointments</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Recent Medical Records</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Doctor</th>
+                            <th>Diagnosis</th>
+                            <th>Treatment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if medical_records %}
+                            {% for record in medical_records[:5] %}
+                                <tr>
+                                    <td>{{ record.record_date.strftime('%d %b, %Y') }}</td>
+                                    <td>Dr. {{ record.staff.first_name }} {{ record.staff.last_name }}</td>
+                                    <td>{{ record.diagnosis }}</td>
+                                    <td>{{ record.treatment }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No medical records found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

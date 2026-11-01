@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Security Audit Logs{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="font-weight-bold text-primary m-0">Security Audit Logs</h6>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" id="exportBtn">
+                            <i class="fas fa-file-export me-1"></i> Export to CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if logs %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="auditTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Date/Time</th>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>Details</th>
+                                        <th>IP Address</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in logs %}
+                                    <tr>
+                                        <td>{{ log.action_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                        <td>
+                                            {% set user = log.user %}
+                                            {% if user %}
+                                                {{ user.username }} 
+                                                <span class="badge 
+                                                    {% if user.role == 'admin' %}bg-danger{% elif user.role == 'staff' %}bg-success{% else %}bg-primary{% endif %}">
+                                                    {{ user.role }}
+                                                </span>
+                                            {% else %}
+                                                Unknown User
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ log.action }}</td>
+                                        <td>{{ log.action_details }}</td>
+                                        <td>{{ log.ip_address }}</td>
+                                        <td>
+                                            <span class="badge {% if log.status == 'Success' %}bg-success{% else %}bg-danger{% endif %}">
+                                                {{ log.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-center">No audit logs found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        $('#auditTable').DataTable({
+            order: [[0, 'desc']], // Sort by date/time descending
+            pageLength: 25,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+        // Export to CSV function
+        $('#exportBtn').on('click', function() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            
+            // Add header row
+            csvContent += "Date/Time,User,Action,Details,IP Address,Status\r\n";
+            
+            // Add data rows
+            {% for log in logs %}
+            csvContent += "{{ log.action_date.strftime('%Y-%m-%d %H:%M:%S') }}," + 
+                         "{{ log.user.username if log.user else 'Unknown' }}," +
+                         "{{ log.action }}," +
+                         "\"{{ log.action_details.replace('"', '""') }}\"," +
+                         "{{ log.ip_address }}," +
+                         "{{ log.status }}\r\n";
+            {% endfor %}
+            
+            // Create download link
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "audit_logs_{{ now().strftime('%Y%m%d') }}.csv");
+            document.body.appendChild(link);
+            
+            // Trigger download
+            link.click();
+        });
+    });
+</script>
+{% endblock %} 

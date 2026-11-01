@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule Video Consultation{% endblock %}
+
+{% block styles %}
+<style>
+    .form-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .preview-card {
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+    
+    .preview-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .appointment-item {
+        cursor: pointer;
+        transition: all 0.2s;
+        border-left: 4px solid transparent;
+    }
+    
+    .appointment-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .appointment-item.selected {
+        border-left-color: #007bff;
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>
+                <i class="fas fa-video text-primary me-2"></i>
+                Schedule Video Consultation
+            </h1>
+            <p class="lead">Create a new telemedicine appointment with a patient</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('telemedicine_dashboard') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-chevron-left me-1"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Appointment Selection -->
+        <div class="col-lg-7 mb-4">
+            <div class="card form-card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Select an Appointment
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="mb-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="patient_search" class="form-label">Search Patient</label>
+                                <input type="text" class="form-control" id="patient_search" name="patient_search" 
+                                       placeholder="Name or ID" value="{{ request.args.get('patient_search', '') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="date_filter" class="form-label">Date Range</label>
+                                <select class="form-select" id="date_filter" name="date_filter">
+                                    <option value="upcoming" {% if request.args.get('date_filter') == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                                    <option value="today" {% if request.args.get('date_filter') == 'today' %}selected{% endif %}>Today</option>
+                                    <option value="tomorrow" {% if request.args.get('date_filter') == 'tomorrow' %}selected{% endif %}>Tomorrow</option>
+                                    <option value="week" {% if request.args.get('date_filter') == 'week' %}selected{% endif %}>This Week</option>
+                                    <option value="all" {% if request.args.get('date_filter') == 'all' %}selected{% endif %}>All</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <div class="appointments-list mt-4">
+                        <h6>Select an in-person appointment to convert to telemedicine:</h6>
+                        
+                        {% if appointments %}
+                            <form id="consultationForm" method="post" action="{{ url_for('create_video_consultation') }}">
+                                <div class="list-group">
+                                    {% for appointment in appointments %}
+                                        <div class="list-group-item appointment-item p-3" onclick="selectAppointment({{ appointment.id }})">
+                                            <div class="form-check">
+                                                <input class="form-check-input appointment-radio" type="radio" 
+                                                       name="appointment_id" id="appointment{{ appointment.id }}" 
+                                                       value="{{ appointment.id }}" required>
+                                                <label class="form-check-label w-100" for="appointment{{ appointment.id }}">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div>
+                                                            <div class="fw-bold">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</div>
+                                                            <div class="text-muted small">
+                                                                Patient ID: {{ appointment.patient.id }}
+                                                                {% if appointment.patient.date_of_birth %}
+                                                                    | Age: {{ calculate_age(appointment.patient.date_of_birth) }}
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="mt-1">
+                                                                <span class="badge bg-primary">{{ appointment.appointment_type }}</span>
+                                                                {% if appointment.status %}
+                                                                    <span class="badge bg-secondary">{{ appointment.status }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>{{ appointment.appointment_date.strftime('%d %b, %Y') }}</div>
+                                                            <div class="small text-muted">
+                                                                {{ appointment.appointment_date.strftime('%H:%M') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    {% if appointment.notes %}
+                                                    <div class="mt-2 small text-muted">
+                                                        <i class="fas fa-sticky-note me-1"></i> {{ appointment.notes }}
+                                                    </div>
+                                                    {% endif %}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div class="consultation-details mt-4" id="consultationDetails" style="display: none;">
+                                    <h6>Video Consultation Details</h6>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="scheduled_start" class="form-label">Start Time</label>
+                                            <input type="datetime-local" class="form-control" id="scheduled_start" 
+                                                   name="scheduled_start" required>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <label for="duration" class="form-label">Duration (minutes)</label>
+                                            <select class="form-select" id="duration" name="duration" required>
+                                                <option value="15">15 minutes</option>
+                                                <option value="30" selected>30 minutes</option>
+                                                <option value="45">45 minutes</option>
+                                                <option value="60">60 minutes</option>
+                                                <option value="90">90 minutes</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <label for="notes" class="form-label">Notes</label>
+                                            <textarea class="form-control" id="notes" name="notes" rows="3" 
+                                                      placeholder="Add consultation notes here..."></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-check me-1"></i> Schedule Video Consultation
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                No eligible appointments found. Please adjust your search criteria.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview & Information -->
+        <div class="col-lg-5">
+            <div class="card form-card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Telemedicine Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-primary mb-4">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Tip:</strong> Converting an in-person appointment to telemedicine helps reduce 
+                        the need for physical visits and provides more flexibility for patients.
+                    </div>
+                    
+                    <h6 class="mb-3">Guidelines for Scheduling</h6>
+                    <ul>
+                        <li class="mb-2">Ensure the patient has appropriate technology for a video call</li>
+                        <li class="mb-2">Schedule consultations during standard working hours when possible</li>
+                        <li class="mb-2">Allow at least 5-10 minutes between consultations</li>
+                        <li class="mb-2">Consider the patient's condition when determining consultation length</li>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <h6 class="mb-3">What Patients Will Need</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-light p-2 rounded me-2">
+                                    <i class="fas fa-laptop text-primary"></i>
+                                </div>
+                                <div>Computer or mobile device</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-light p-2 rounded me-2">
+                                    <i class="fas fa-camera text-primary"></i>
+                                </div>
+                                <div>Webcam</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-light p-2 rounded me-2">
+                                    <i class="fas fa-microphone text-primary"></i>
+                                </div>
+                                <div>Microphone</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-light p-2 rounded me-2">
+                                    <i class="fas fa-wifi text-primary"></i>
+                                </div>
+                                <div>Internet connection</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card form-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>
+                        Consultation Preview
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="previewNotSelected" class="text-center py-4">
+                        <i class="fas fa-video fa-3x text-muted mb-3"></i>
+                        <h6>Select an appointment to preview consultation details</h6>
+                    </div>
+                    
+                    <div id="previewSelected" class="d-none">
+                        <div class="preview-card p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h6 class="mb-1" id="previewPatientName">Patient Name</h6>
+                                <span class="badge bg-primary" id="previewType">Consultation</span>
+                            </div>
+                            <div class="small text-muted mb-2" id="previewDateTime">Date and time</div>
+                            
+                            <hr>
+                            
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="small text-muted">Duration</div>
+                                    <div id="previewDuration">30 minutes</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="small text-muted">Provider</div>
+                                    <div>Dr. {{ current_user.first_name }} {{ current_user.last_name }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <div class="small text-muted">Notes</div>
+                                <div id="previewNotes" class="fst-italic">No notes added</div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            The patient will receive an email with consultation details and instructions to join.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Format date for datetime-local input
+    function formatDateForInput(date) {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        let month = '' + (d.getMonth() + 1);
+        let day = '' + d.getDate();
+        let hours = '' + d.getHours();
+        let minutes = '' + d.getMinutes();
+        
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hours.length < 2) hours = '0' + hours;
+        if (minutes.length < 2) minutes = '0' + minutes;
+        
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+    
+    // Handle appointment selection
+    function selectAppointment(appointmentId) {
+        // Clear all selections
+        document.querySelectorAll('.appointment-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+        
+        // Select the clicked appointment
+        const appointmentItem = document.getElementById('appointment' + appointmentId);
+        if (appointmentItem) {
+            appointmentItem.checked = true;
+            appointmentItem.closest('.appointment-item').classList.add('selected');
+            
+            // Show consultation details section
+            document.getElementById('consultationDetails').style.display = 'block';
+            
+            // Set default consultation time based on appointment
+            const appointmentElement = appointmentItem.closest('.appointment-item');
+            const appointmentDate = appointmentElement.querySelector('.text-end div:first-child').textContent;
+            const appointmentTime = appointmentElement.querySelector('.text-end .small').textContent;
+            const appointmentDateTime = appointmentDate + ' ' + appointmentTime;
+            
+            // Try to parse the date
+            try {
+                const dateStr = appointmentDateTime.replace(',', '');
+                const date = new Date(dateStr);
+                document.getElementById('scheduled_start').value = formatDateForInput(date);
+            } catch (e) {
+                console.error('Error parsing date:', e);
+                // If parsing fails, just use current date/time
+                document.getElementById('scheduled_start').value = formatDateForInput(new Date());
+            }
+        }
+    }
+    
+    // Initialize the form
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if any appointment is pre-selected (e.g., from URL parameter)
+        const preselectedAppointment = document.querySelector('.appointment-radio:checked');
+        if (preselectedAppointment) {
+            selectAppointment(preselectedAppointment.value);
+        }
+    });
+</script>
+{% endblock %} 

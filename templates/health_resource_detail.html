@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource.title }} - African Health Hub{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('health_resources') }}">Health Resources</a></li>
+                    <li class="breadcrumb-item active">{{ resource.title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('health_resources') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to Resources
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                {% if resource.thumbnail_url %}
+                <img src="{{ resource.thumbnail_url }}" class="card-img-top" alt="{{ resource.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h1 class="card-title mb-3">{{ resource.title }}</h1>
+                    
+                    <div class="d-flex mb-4">
+                        <span class="badge bg-primary me-2">{{ resource.resource_type }}</span>
+                        <span class="badge bg-secondary me-2">{{ resource.target_audience or 'General' }}</span>
+                        <small class="text-muted ms-auto">Published: {{ resource.created_at.strftime('%d %B, %Y') }}</small>
+                    </div>
+                    
+                    <div class="lead mb-4">
+                        {{ resource.description }}
+                    </div>
+                    
+                    <div class="resource-content">
+                        {{ resource.content|safe }}
+                    </div>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i> Print
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-success" onclick="shareResource('{{ resource.title }}')">
+                            <i class="fas fa-share-alt me-1"></i> Share
+                        </a>
+                    </div>
+                    <small class="text-muted align-self-center">Last updated: {{ resource.updated_at.strftime('%d %B, %Y') }}</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-star me-2"></i>Related Resources</h5>
+                </div>
+                <div class="card-body">
+                    {% if related_resources %}
+                        <div class="list-group">
+                            {% for related in related_resources %}
+                                <a href="{{ url_for('view_health_resource', resource_id=related.id) }}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ related.title }}</h6>
+                                    </div>
+                                    <p class="mb-1 small">{{ related.description|truncate(80) }}</p>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No related resources found.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Quick Contact</h5>
+                </div>
+                <div class="card-body">
+                    <p>Have questions about this resource or need more information?</p>
+                    <p><i class="fas fa-envelope me-2"></i> <a href="mailto:info@africanhealthhub.com">info@africanhealthhub.com</a></p>
+                    <p><i class="fas fa-phone me-2"></i> +233 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function shareResource(title) {
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: 'Check out this health resource from African Health Hub',
+                url: window.location.href,
+            })
+            .catch((error) => console.log('Error sharing:', error));
+        } else {
+            // Fallback for browsers that don't support the Web Share API
+            prompt('Copy this link to share:', window.location.href);
+        }
+    }
+</script>
+{% endblock %} 

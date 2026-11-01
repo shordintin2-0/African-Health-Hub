@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Staff</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Medical Staff</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Specialization</th>
+                <th>Qualification</th>
+                <th>Contact Number</th>
+                <th>Email</th>
+                <th>Hire Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff_member in staff %}
+            <tr>
+                <td>{{ staff_member.staff_id }}</td>
+                <td>{{ staff_member.first_name }}</td>
+                <td>{{ staff_member.last_name }}</td>
+                <td>{{ staff_member.specialization }}</td>
+                <td>{{ staff_member.qualification }}</td>
+                <td>{{ staff_member.contact_number }}</td>
+                <td>{{ staff_member.email }}</td>
+                <td>{{ staff_member.hire_date }}</td>
+                <td>{{ staff_member.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

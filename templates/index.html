@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block title %}African Health Hub - Healthcare Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="African Health Hub Logo" class="img-fluid mb-4" style="max-width: 150px;">
+                <h1 class="display-4 fw-bold mb-4">Improving Healthcare Access Across Africa</h1>
+                <p class="lead mb-4">African Health Hub is a comprehensive healthcare management system designed to improve healthcare delivery, patient management, and medical record-keeping across Africa.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-4 me-md-2">Get Started</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4">Login</a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{{ url_for('static', filename='images/hero-image.png') }}" alt="Healthcare professionals" class="img-fluid rounded-3">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Key Features</h2>
+        <p class="lead text-muted">Our platform offers a range of features to support healthcare providers and patients</p>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
+                        <i class="fas fa-user-md fa-2x text-primary"></i>
+                    </div>
+                    <h4 class="card-title">Patient Management</h4>
+                    <p class="card-text">Efficiently manage patient records, medical history, and appointments in one secure location.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-flex mb-3">
+                        <i class="fas fa-calendar-check fa-2x text-success"></i>
+                    </div>
+                    <h4 class="card-title">Appointment Scheduling</h4>
+                    <p class="card-text">Easy-to-use appointment scheduling system for patients and healthcare providers.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-flex mb-3">
+                        <i class="fas fa-notes-medical fa-2x text-info"></i>
+                    </div>
+                    <h4 class="card-title">Medical Records</h4>
+                    <p class="card-text">Secure electronic medical records with comprehensive patient history and treatment plans.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Role-Based Access Demo Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Role-Based Access Control</h2>
+            <p class="lead text-muted">Our system provides tailored experiences for different users</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm role-card">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0 text-center"><i class="fas fa-user-shield me-2"></i>Administrators</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>User management</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>System configuration</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Audit logs and security</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Analytics and reporting</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Resource allocation</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-center py-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Login as Admin</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm role-card">
+                    <div class="card-header bg-success text-white py-3">
+                        <h4 class="mb-0 text-center"><i class="fas fa-user-md me-2"></i>Medical Staff</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Patient management</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Appointment scheduling</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Medical record keeping</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Prescription management</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Lab result tracking</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-center py-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-success">Login as Staff</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm role-card">
+                    <div class="card-header bg-info text-white py-3">
+                        <h4 class="mb-0 text-center"><i class="fas fa-user me-2"></i>Patients</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>View personal information</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Book appointments</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Access medical records</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Track prescriptions</li>
+                            <li class="list-group-item px-0"><i class="fas fa-check-circle text-success me-2"></i>Health tracking tools</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-center py-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-info">Login as Patient</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">What Our Users Say</h2>
+        <p class="lead text-muted">Feedback from healthcare professionals and patients across Africa</p>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="card-text">"This system has transformed how we manage patient records. The interface is intuitive and the security features give us peace of mind."</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="{{ url_for('static', filename='images/testimonial-1.jpg') }}" class="rounded-circle me-3" width="50" height="50" alt="Testimonial">
+                        <div>
+                            <h6 class="mb-0">Dr. Kwame Asante</h6>
+                            <small class="text-muted">Medical Director, Accra Medical Center</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="card-text">"As a nurse, I appreciate how easy it is to access patient information and update medical records. It saves us time and helps us provide better care."</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="{{ url_for('static', filename='images/testimonial-2.jpg') }}" class="rounded-circle me-3" width="50" height="50" alt="Testimonial">
+                        <div>
+                            <h6 class="mb-0">Fatima Kamara</h6>
+                            <small class="text-muted">Head Nurse, Lagos General Hospital</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="card-text">"Booking appointments online and having access to my medical history has been a game-changer. No more carrying paper records to every doctor visit."</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="{{ url_for('static', filename='images/testimonial-3.jpg') }}" class="rounded-circle me-3" width="50" height="50" alt="Testimonial">
+                        <div>
+                            <h6 class="mb-0">John Mukasa</h6>
+                            <small class="text-muted">Patient, Kampala, Uganda</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-9">
+                <h2 class="fw-bold mb-3">Ready to transform healthcare management?</h2>
+                <p class="lead mb-0">Join African Health Hub today and experience the benefits of our comprehensive healthcare management system.</p>
+            </div>
+            <div class="col-lg-3 text-lg-end mt-4 mt-lg-0">
+                <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-4">Get Started Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

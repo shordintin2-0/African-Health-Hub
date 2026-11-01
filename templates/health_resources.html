@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Health Resources - African Health Hub{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-book-medical me-2"></i>Health Resources</h1>
+            <p class="lead">Access important health information and resources to help you stay informed and healthy.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            {% if current_user.is_authenticated %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Health Resources</li>
+                </ol>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Featured Resources -->
+    {% if featured_resources %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="border-bottom pb-2 mb-4">Featured Resources</h2>
+        </div>
+        {% for resource in featured_resources %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if resource.thumbnail_url %}
+                <img src="{{ resource.thumbnail_url }}" class="card-img-top" alt="{{ resource.title }}">
+                {% else %}
+                <div class="card-img-top bg-light text-center py-5">
+                    <i class="fas {% if resource.resource_type == 'Article' %}fa-file-alt{% elif resource.resource_type == 'Video' %}fa-video{% else %}fa-file-medical{% endif %} fa-3x text-primary"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.title }}</h5>
+                    <p class="card-text">{{ resource.description }}</p>
+                    <span class="badge bg-primary mb-2">{{ resource.resource_type }}</span>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('view_health_resource', resource_id=resource.id) }}" class="btn btn-outline-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- All Resources by Type -->
+    {% for resource_type, resources in resources_by_type.items() %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="border-bottom pb-2 mb-3">{{ resource_type }}</h2>
+        </div>
+        
+        {% for resource in resources %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.title }}</h5>
+                    <p class="card-text">{{ resource.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-secondary">{{ resource.target_audience or 'General' }}</span>
+                        <small class="text-muted">{{ resource.created_at.strftime('%d %b %Y') }}</small>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('view_health_resource', resource_id=resource.id) }}" class="btn btn-sm btn-outline-primary">View Resource</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                No health resources are currently available. Please check back later.
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

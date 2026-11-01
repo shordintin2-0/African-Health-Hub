@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Profile - {{ patient.first_name }} {{ patient.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-user-injured me-2"></i>Patient Profile</h1>
+        <div class="d-flex align-items-center">
+            {% if current_user.role in ['admin', 'staff'] %}
+            <a href="{{ url_for('patient_risk_assessment', patient_id=patient.id) }}" class="btn btn-primary me-2">
+                <i class="fas fa-chart-line"></i> Risk Assessment
+            </a>
+            {% endif %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    {% if current_user.role == 'admin' %}
+                        <li class="breadcrumb-item"><a href="{{ url_for('admin_patients') }}">Patients</a></li>
+                    {% elif current_user.role == 'staff' %}
+                        <li class="breadcrumb-item"><a href="{{ url_for('staff_patients') }}">Patients</a></li>
+                    {% endif %}
+                    <li class="breadcrumb-item active" aria-current="page">{{ patient.first_name }} {{ patient.last_name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Patient Info Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>Personal Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="rounded-circle img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                        <h3>{{ patient.first_name }} {{ patient.last_name }}</h3>
+                        <p class="text-muted">Patient ID: {{ patient.id }}</p>
+                        
+                        {% if current_user.role in ['admin', 'staff'] %}
+                            <div class="d-grid gap-2 mt-3">
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addMedicalRecordModal">
+                                    <i class="fas fa-file-medical me-2"></i>Add Medical Record
+                                </button>
+                                <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal">
+                                    <i class="fas fa-calendar-plus me-2"></i>Schedule Appointment
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="border-top pt-3">
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Date of Birth:</div>
+                            <div class="col-7">{{ patient.date_of_birth.strftime('%Y-%m-%d') if patient.date_of_birth else 'Not specified' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Gender:</div>
+                            <div class="col-7">{{ patient.gender if patient.gender else 'Not specified' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Email:</div>
+                            <div class="col-7">{{ patient.email }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Phone:</div>
+                            <div class="col-7">{{ patient.phone if patient.phone else 'Not specified' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Address:</div>
+                            <div class="col-7">{{ patient.address if patient.address else 'Not specified' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 fw-bold">Emergency Contact:</div>
+                            <div class="col-7">{{ patient.emergency_contact if patient.emergency_contact else 'Not specified' }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-5 fw-bold">Registered:</div>
+                            <div class="col-7">{{ patient.created_at.strftime('%Y-%m-%d') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Info and Quick Stats -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-heartbeat me-2"></i>Medical Information</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Medical History</h6>
+                    <p>{{ patient.medical_history if patient.medical_history else 'No medical history recorded.' }}</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 text-primary">{{ medical_records|length }}</h1>
+                                    <p class="mb-0">Medical Records</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 text-success">{{ appointments|selectattr('status', 'equalto', 'Completed')|list|length }}</h1>
+                                    <p class="mb-0">Completed Visits</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 text-warning">{{ appointments|selectattr('status', 'equalto', 'Scheduled')|list|length }}</h1>
+                                    <p class="mb-0">Upcoming Appts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Appointments -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    {% set upcoming_appointments = appointments|selectattr('status', 'equalto', 'Scheduled')|selectattr('appointment_date', 'gt', now())|list %}
+                    
+                    {% if upcoming_appointments %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Doctor</th>
+                                        <th>Type</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in upcoming_appointments|sort(attribute='appointment_date') %}
+                                        <tr>
+                                            <td>{{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                            <td>Dr. {{ appointment.staff.first_name }} {{ appointment.staff.last_name }}</td>
+                                            <td>{{ appointment.appointment_type }}</td>
+                                            <td>{{ appointment.notes if appointment.notes else 'No notes' }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">No upcoming appointments scheduled.</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Medical Records -->
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-medical me-2"></i>Recent Medical Records</h5>
+                </div>
+                <div class="card-body">
+                    {% if medical_records %}
+                        <div class="accordion" id="medicalRecordsAccordion">
+                            {% for record in medical_records[:5] %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ record.id }}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#collapse{{ record.id }}" aria-expanded="false" 
+                                                aria-controls="collapse{{ record.id }}">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <span><strong>{{ record.record_date.strftime('%Y-%m-%d') }}</strong> - {{ record.diagnosis }}</span>
+                                                <small class="text-muted">Dr. {{ record.staff.first_name }} {{ record.staff.last_name }}</small>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ record.id }}" class="accordion-collapse collapse" 
+                                         aria-labelledby="heading{{ record.id }}" data-bs-parent="#medicalRecordsAccordion">
+                                        <div class="accordion-body">
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 fw-bold">Diagnosis:</div>
+                                                <div class="col-md-9">{{ record.diagnosis }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 fw-bold">Treatment:</div>
+                                                <div class="col-md-9">{{ record.treatment }}</div>
+                                            </div>
+                                            {% if record.prescription %}
+                                                <div class="row mb-2">
+                                                    <div class="col-md-3 fw-bold">Prescription:</div>
+                                                    <div class="col-md-9">{{ record.prescription }}</div>
+                                                </div>
+                                            {% endif %}
+                                            {% if record.notes %}
+                                                <div class="row mb-2">
+                                                    <div class="col-md-3 fw-bold">Notes:</div>
+                                                    <div class="col-md-9">{{ record.notes }}</div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% if medical_records|length > 5 %}
+                            <div class="text-center mt-3">
+                                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#allMedicalRecordsModal">
+                                    View All Records ({{ medical_records|length }})
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info">No medical records found for this patient.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- All Medical Records Modal -->
+{% if medical_records %}
+    <div class="modal fade" id="allMedicalRecordsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Medical Records: {{ patient.first_name }} {{ patient.last_name }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="allRecordsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Doctor</th>
+                                    <th>Diagnosis</th>
+                                    <th>Treatment</th>
+                                    <th>Prescription</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in medical_records %}
+                                    <tr>
+                                        <td>{{ record.record_date.strftime('%Y-%m-%d') }}</td>
+                                        <td>Dr. {{ record.staff.first_name }} {{ record.staff.last_name }}</td>
+                                        <td>{{ record.diagnosis }}</td>
+                                        <td>{{ record.treatment }}</td>
+                                        <td>{{ record.prescription if record.prescription else '-' }}</td>
+                                        <td>{{ record.notes if record.notes else '-' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Add Medical Record Modal -->
+{% if current_user.role in ['admin', 'staff'] %}
+    <div class="modal fade" id="addMedicalRecordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Add Medical Record for {{ patient.first_name }} {{ patient.last_name }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('staff_add_medical_record') }}" method="post">
+                        <input type="hidden" name="patient_id" value="{{ patient.id }}">
+                        <div class="mb-3">
+                            <label for="diagnosis" class="form-label">Diagnosis*</label>
+                            <input type="text" class="form-control" id="diagnosis" name="diagnosis" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="treatment" class="form-label">Treatment*</label>
+                            <textarea class="form-control" id="treatment" name="treatment" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prescription" class="form-label">Prescription</label>
+                            <textarea class="form-control" id="prescription" name="prescription" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Additional Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="record_date" class="form-label">Record Date</label>
+                            <input type="datetime-local" class="form-control" id="record_date" name="record_date" value="{{ now().strftime('%Y-%m-%dT%H:%M') }}">
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Record</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Appointment Modal -->
+    <div class="modal fade" id="scheduleAppointmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Schedule Appointment for {{ patient.first_name }} {{ patient.last_name }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('staff_add_appointment') }}" method="post">
+                        <input type="hidden" name="patient_id" value="{{ patient.id }}">
+                        <div class="mb-3">
+                            <label for="appointment_date" class="form-label">Appointment Date & Time*</label>
+                            <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="appointment_type" class="form-label">Appointment Type*</label>
+                            <select class="form-select" id="appointment_type" name="appointment_type" required>
+                                <option value="" selected disabled>Select appointment type</option>
+                                <option value="Consultation">Consultation</option>
+                                <option value="Follow-up">Follow-up</option>
+                                <option value="Checkup">Regular Checkup</option>
+                                <option value="Vaccination">Vaccination</option>
+                                <option value="Procedure">Medical Procedure</option>
+                                <option value="Emergency">Emergency</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Schedule Appointment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Edit Patient Modal -->
+{% if current_user.role in ['admin', 'staff'] %}
+    <div class="modal fade" id="editPatientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Edit Patient Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('admin_edit_patient', patient_id=patient.id) if current_user.role == 'admin' else url_for('staff_edit_patient', patient_id=patient.id) }}" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">First Name*</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ patient.first_name }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Last Name*</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ patient.last_name }}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth.strftime('%Y-%m-%d') if patient.date_of_birth else '' }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+                                    <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+                                    <option value="Other" {% if patient.gender == 'Other' %}selected{% endif %}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email*</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ patient.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ patient.phone }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="2">{{ patient.address }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emergency_contact" class="form-label">Emergency Contact</label>
+                            <input type="text" class="form-control" id="emergency_contact" name="emergency_contact" value="{{ patient.emergency_contact }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="medical_history" class="form-label">Medical History</label>
+                            <textarea class="form-control" id="medical_history" name="medical_history" rows="3">{{ patient.medical_history }}</textarea>
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Patient Profile: {{ patient.first_name }} {{ patient.last_name }}</h4>
+        {% if current_user.role in ['admin', 'staff'] %}
+        <div>
+            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editPatientModal">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#allRecordsTable').DataTable({
+            order: [[0, 'desc']]
+        });
+    });
+</script>
+{% endblock %} 

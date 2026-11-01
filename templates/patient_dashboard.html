@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="mb-4">Welcome, {{ current_user.username }}</h1>
+            
+            <!-- Upcoming Appointments -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-calendar-check me-2"></i>Your Upcoming Appointments</h5>
+                    <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
+                        <i class="fas fa-plus me-1"></i>Schedule New
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Doctor</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if appointments %}
+                                    {% for appointment in appointments %}
+                                    <tr>
+                                        <td>{{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>Dr. {{ appointment.staff.first_name }} {{ appointment.staff.last_name }}</td>
+                                        <td>{{ appointment.appointment_type }}</td>
+                                        <td>
+                                            {% if appointment.status == 'Scheduled' %}
+                                                <span class="badge bg-info">{{ appointment.status }}</span>
+                                            {% elif appointment.status == 'Completed' %}
+                                                <span class="badge bg-success">{{ appointment.status }}</span>
+                                            {% elif appointment.status == 'Cancelled' %}
+                                                <span class="badge bg-danger">{{ appointment.status }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ appointment.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewAppointmentModal{{ appointment.id }}">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            {% if appointment.status == 'Scheduled' %}
+                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelAppointmentModal{{ appointment.id }}">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">No upcoming appointments</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Medical Records -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-notes-medical me-2"></i>Recent Medical Records</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Doctor</th>
+                                    <th>Diagnosis</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if medical_records %}
+                                    {% for record in medical_records %}
+                                    <tr>
+                                        <td>{{ record.record_date.strftime('%Y-%m-%d') }}</td>
+                                        <td>Dr. {{ record.staff.first_name }} {{ record.staff.last_name }}</td>
+                                        <td>{{ record.diagnosis }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRecordModal{{ record.id }}">
+                                                <i class="fas fa-file-medical"></i> View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No medical records found</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Profile Summary -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Your Profile</h5>
+                </div>
+                <div class="card-body">
+                    {% if profile %}
+                    <div class="text-center mb-3">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Profile Image" class="rounded-circle img-fluid" style="max-width: 120px; max-height: 120px; object-fit: cover;">
+                    </div>
+                    <p><strong>Name:</strong> {{ profile.first_name }} {{ profile.last_name }}</p>
+                    <p><strong>Email:</strong> {{ profile.email }}</p>
+                    <p><strong>Gender:</strong> {{ profile.gender if profile.gender else 'Not specified' }}</p>
+                    <p><strong>Phone:</strong> {{ profile.phone if profile.phone else 'Not specified' }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-edit me-1"></i> Edit Profile
+                        </a>
+                    </div>
+                    {% else %}
+                    <p class="text-center">Profile information not available</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Health Resources -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-book-medical me-2"></i>Health Resources</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('health_resources') }}#covid" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">COVID-19 Prevention</h6>
+                                <small>New</small>
+                            </div>
+                            <p class="mb-1">Latest guidelines for COVID-19 prevention and vaccination.</p>
+                        </a>
+                        <a href="{{ url_for('health_resources') }}#malaria" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Malaria Prevention</h6>
+                            </div>
+                            <p class="mb-1">Tips for preventing malaria in high-risk areas.</p>
+                        </a>
+                        <a href="{{ url_for('health_resources') }}#nutrition" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Healthy Eating Guide</h6>
+                            </div>
+                            <p class="mb-1">Nutrition guidelines for a balanced diet.</p>
+                        </a>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('health_resources') }}" class="btn btn-outline-warning">View All Resources</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telemedicine Consultations -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-video me-2"></i>Telemedicine</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">Connect with healthcare providers through secure video consultations.</p>
+                    
+                    {% if upcoming_consultations %}
+                        <h6 class="mb-2">Upcoming Consultations</h6>
+                        <div class="list-group mb-3">
+                            {% for consultation in upcoming_consultations %}
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>Dr. {{ consultation.staff.last_name }}</strong>
+                                            <div class="small text-muted">
+                                                {{ consultation.scheduled_start.strftime('%d %b, %Y at %H:%M') }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {% if is_within_15_minutes(consultation.scheduled_start) %}
+                                                <a href="{{ url_for('join_consultation', consultation_id=consultation.id) }}" class="btn btn-sm btn-success">
+                                                    <i class="fas fa-video me-1"></i> Join
+                                                </a>
+                                            {% else %}
+                                                <span class="badge bg-primary">Upcoming</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mb-3">
+                            <i class="fas fa-info-circle me-1"></i>
+                            No upcoming video consultations.
+                        </div>
+                    {% endif %}
+                    
+                    <div class="d-grid">
+                        <a href="{{ url_for('telemedicine_dashboard') }}" class="btn btn-outline-info">
+                            <i class="fas fa-video me-1"></i> Telemedicine Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Tracker -->
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-heartbeat me-2"></i>Health Tracker</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="healthChart" width="400" height="200"></canvas>
+                    <div class="d-grid gap-2 mt-3">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#healthTrackerModal">
+                            <i class="fas fa-plus me-1"></i> Add New Measurement
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Appointment Modal -->
+<div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Schedule New Appointment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('patient_schedule_appointment') }}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="appointmentDate" class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="appointmentDate" name="appointment_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctorSelect" class="form-label">Select Doctor</label>
+                        <select class="form-select" id="doctorSelect" name="staff_id" required>
+                            <option value="" selected disabled>-- Select a doctor --</option>
+                            {% for doctor in doctors %}
+                            <option value="{{ doctor.id }}">Dr. {{ doctor.first_name }} {{ doctor.last_name }} ({{ doctor.specialization }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointmentType" class="form-label">Appointment Type</label>
+                        <select class="form-select" id="appointmentType" name="appointment_type" required>
+                            <option value="" selected disabled>-- Select type --</option>
+                            <option value="Consultation">Consultation</option>
+                            <option value="Check-up">Check-up</option>
+                            <option value="Follow-up">Follow-up</option>
+                            <option value="Vaccination">Vaccination</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointmentNotes" class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" id="appointmentNotes" name="notes" rows="3" placeholder="Please describe your symptoms or reason for appointment"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Health Tracker Modal -->
+<div class="modal fade" id="healthTrackerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Add Health Measurement</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="#" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="measurementType" class="form-label">Measurement Type</label>
+                        <select class="form-select" id="measurementType" name="measurement_type" required>
+                            <option value="" selected disabled>-- Select type --</option>
+                            <option value="blood_pressure">Blood Pressure</option>
+                            <option value="heart_rate">Heart Rate</option>
+                            <option value="blood_sugar">Blood Sugar</option>
+                            <option value="weight">Weight</option>
+                            <option value="temperature">Temperature</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="measurementValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="measurementValue" name="value" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="measurementDate" class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="measurementDate" name="measurement_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="measurementNotes" class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" id="measurementNotes" name="notes" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Measurement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Health tracker chart
+    const ctx = document.getElementById('healthChart').getContext('2d');
+    const healthChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Blood Pressure (systolic)',
+                data: [120, 118, 125, 119, 122, 118],
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }, {
+                label: 'Heart Rate',
+                data: [72, 75, 74, 78, 72, 70],
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Your Health Trends'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
