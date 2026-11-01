@@ -1,0 +1,622 @@
+2025-03-23 12:57:06,575 - __main__ - INFO - Testing database connection...
+2025-03-23 12:57:06,695 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 12:57:06,749 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 12:57:06,749 - __main__ - INFO - - patients181
+2025-03-23 12:57:06,750 - __main__ - INFO - - medical_staff181
+2025-03-23 12:57:06,750 - __main__ - INFO - - public_health_resources181
+2025-03-23 12:57:06,751 - __main__ - INFO - - volunteers181
+2025-03-23 12:57:06,751 - __main__ - INFO - - donations181
+2025-03-23 12:57:06,751 - __main__ - INFO - - user_audit_logs181
+2025-03-23 12:57:06,751 - __main__ - INFO - - security_audit_log181
+2025-03-23 12:57:06,751 - __main__ - INFO - - users181
+2025-03-23 12:57:06,752 - __main__ - INFO - - appointments181
+2025-03-23 12:57:06,752 - __main__ - INFO - - medical_records181
+2025-03-23 12:57:06,753 - __main__ - INFO - Configuring SQLAlchemy...
+2025-03-23 12:57:06,771 - __main__ - INFO - SQLAlchemy configured successfully!
+2025-03-23 12:57:06,779 - __main__ - INFO - Testing database connection...
+2025-03-23 12:57:06,781 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 12:57:06,787 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 12:57:06,787 - __main__ - INFO - - patients181
+2025-03-23 12:57:06,787 - __main__ - INFO - - medical_staff181
+2025-03-23 12:57:06,788 - __main__ - INFO - - public_health_resources181
+2025-03-23 12:57:06,788 - __main__ - INFO - - volunteers181
+2025-03-23 12:57:06,788 - __main__ - INFO - - donations181
+2025-03-23 12:57:06,788 - __main__ - INFO - - user_audit_logs181
+2025-03-23 12:57:06,789 - __main__ - INFO - - security_audit_log181
+2025-03-23 12:57:06,789 - __main__ - INFO - - users181
+2025-03-23 12:57:06,789 - __main__ - INFO - - appointments181
+2025-03-23 12:57:06,789 - __main__ - INFO - - medical_records181
+2025-03-23 12:57:06,789 - __main__ - INFO - 
+Creating database tables...
+2025-03-23 12:57:07,012 - __main__ - INFO - Tables created successfully!
+2025-03-23 12:57:07,013 - __main__ - INFO - 
+Verifying tables in database:
+2025-03-23 12:57:07,024 - __main__ - INFO - - appointments181
+2025-03-23 12:57:07,044 - __main__ - INFO -   * appointment_id: INTEGER
+2025-03-23 12:57:07,044 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 12:57:07,045 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 12:57:07,045 - __main__ - INFO -   * appointment_date: DATETIME
+2025-03-23 12:57:07,046 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,046 - __main__ - INFO -   * notes: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,046 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 12:57:07,047 - __main__ - INFO - - donations181
+2025-03-23 12:57:07,056 - __main__ - INFO -   * donation_id: INTEGER
+2025-03-23 12:57:07,056 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,057 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,058 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,058 - __main__ - INFO -   * amount: NUMERIC(10, 2)
+2025-03-23 12:57:07,058 - __main__ - INFO -   * frequency: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,059 - __main__ - INFO -   * anonymous: BIT
+2025-03-23 12:57:07,059 - __main__ - INFO -   * message: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,059 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,059 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 12:57:07,060 - __main__ - INFO - - medical_records181
+2025-03-23 12:57:07,087 - __main__ - INFO -   * record_id: INTEGER
+2025-03-23 12:57:07,088 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 12:57:07,088 - __main__ - INFO -   * diagnosis: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,089 - __main__ - INFO -   * treatment: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,090 - __main__ - INFO -   * notes: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,090 - __main__ - INFO -   * record_date: DATETIME
+2025-03-23 12:57:07,091 - __main__ - INFO - - medical_staff181
+2025-03-23 12:57:07,102 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 12:57:07,103 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,104 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,104 - __main__ - INFO -   * specialization: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,105 - __main__ - INFO -   * qualification: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,105 - __main__ - INFO -   * contact_number: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,106 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,107 - __main__ - INFO -   * hire_date: DATE
+2025-03-23 12:57:07,107 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,108 - __main__ - INFO - - patients181
+2025-03-23 12:57:07,117 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 12:57:07,118 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,118 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,119 - __main__ - INFO -   * date_of_birth: DATE
+2025-03-23 12:57:07,119 - __main__ - INFO -   * gender: VARCHAR(10) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,120 - __main__ - INFO -   * contact_number: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,121 - __main__ - INFO -   * address: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,121 - __main__ - INFO -   * medical_history: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,122 - __main__ - INFO -   * registration_date: DATETIME
+2025-03-23 12:57:07,122 - __main__ - INFO -   * last_updated: DATETIME
+2025-03-23 12:57:07,122 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,123 - __main__ - INFO -   * blood_type: VARCHAR(5) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,123 - __main__ - INFO -   * risk_level: VARCHAR(10) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,123 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,123 - __main__ - INFO - - public_health_resources181
+2025-03-23 12:57:07,131 - __main__ - INFO -   * resource_id: INTEGER
+2025-03-23 12:57:07,131 - __main__ - INFO -   * title: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,132 - __main__ - INFO -   * description: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,132 - __main__ - INFO -   * category: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,132 - __main__ - INFO -   * publication_date: DATE
+2025-03-23 12:57:07,133 - __main__ - INFO -   * location: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,133 - __main__ - INFO -   * contact_info: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,133 - __main__ - INFO - - security_audit_log181
+2025-03-23 12:57:07,141 - __main__ - INFO -   * log_id: INTEGER
+2025-03-23 12:57:07,142 - __main__ - INFO -   * action_type: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,142 - __main__ - INFO -   * table_affected: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,142 - __main__ - INFO -   * user_name: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,142 - __main__ - INFO -   * action_date: DATETIME
+2025-03-23 12:57:07,143 - __main__ - INFO -   * affected_record_id: INTEGER
+2025-03-23 12:57:07,143 - __main__ - INFO -   * old_values: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,143 - __main__ - INFO -   * new_values: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,143 - __main__ - INFO - - user_audit_logs181
+2025-03-23 12:57:07,151 - __main__ - INFO -   * log_id: INTEGER
+2025-03-23 12:57:07,152 - __main__ - INFO -   * user_id: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,152 - __main__ - INFO -   * user_role: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,152 - __main__ - INFO -   * action_type: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,153 - __main__ - INFO -   * table_affected: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,153 - __main__ - INFO -   * record_id: INTEGER
+2025-03-23 12:57:07,153 - __main__ - INFO -   * action_timestamp: DATETIME
+2025-03-23 12:57:07,154 - __main__ - INFO -   * ip_address: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,154 - __main__ - INFO -   * details: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,154 - __main__ - INFO - - users181
+2025-03-23 12:57:07,162 - __main__ - INFO -   * user_id: INTEGER
+2025-03-23 12:57:07,163 - __main__ - INFO -   * username: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,163 - __main__ - INFO -   * password_hash: VARCHAR(255) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,163 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,164 - __main__ - INFO -   * role: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,164 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,164 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 12:57:07,164 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 12:57:07,165 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 12:57:07,165 - __main__ - INFO - - volunteers181
+2025-03-23 12:57:07,176 - __main__ - INFO -   * volunteer_id: INTEGER
+2025-03-23 12:57:07,176 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,177 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,177 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,177 - __main__ - INFO -   * phone: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,178 - __main__ - INFO -   * area: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,178 - __main__ - INFO -   * availability: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,178 - __main__ - INFO -   * message: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,179 - __main__ - INFO -   * skills: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,179 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 12:57:07,179 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 12:57:07,187 - __main__ - ERROR - 
+Error during initialization: (pyodbc.ProgrammingError) ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+[SQL: SELECT TOP 1 users181.user_id AS users181_user_id, users181.username AS users181_username, users181.password_hash AS users181_password_hash, users181.email AS users181_email, users181.role AS users181_role, users181.created_at AS users181_created_at, users181.last_login AS users181_last_login 
+FROM users181 
+WHERE users181.username = ?]
+[parameters: ('admin',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+pyodbc.ProgrammingError: ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 288, in <module>
+    if not User.query.filter_by(username='admin').first():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2759, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2858, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (pyodbc.ProgrammingError) ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+[SQL: SELECT TOP 1 users181.user_id AS users181_user_id, users181.username AS users181_username, users181.password_hash AS users181_password_hash, users181.email AS users181_email, users181.role AS users181_role, users181.created_at AS users181_created_at, users181.last_login AS users181_last_login 
+FROM users181 
+WHERE users181.username = ?]
+[parameters: ('admin',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-23 14:42:07,567 - __main__ - INFO - Testing database connection...
+2025-03-23 14:42:07,943 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 14:42:08,018 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 14:42:08,019 - __main__ - INFO - - patients181
+2025-03-23 14:42:08,019 - __main__ - INFO - - medical_staff181
+2025-03-23 14:42:08,020 - __main__ - INFO - - public_health_resources181
+2025-03-23 14:42:08,020 - __main__ - INFO - - volunteers181
+2025-03-23 14:42:08,021 - __main__ - INFO - - donations181
+2025-03-23 14:42:08,021 - __main__ - INFO - - user_audit_logs181
+2025-03-23 14:42:08,021 - __main__ - INFO - - security_audit_log181
+2025-03-23 14:42:08,021 - __main__ - INFO - - users181
+2025-03-23 14:42:08,022 - __main__ - INFO - - appointments181
+2025-03-23 14:42:08,022 - __main__ - INFO - - medical_records181
+2025-03-23 14:42:08,024 - __main__ - INFO - Configuring SQLAlchemy...
+2025-03-23 14:42:08,058 - __main__ - INFO - SQLAlchemy configured successfully!
+2025-03-23 14:42:08,064 - __main__ - INFO - Testing database connection...
+2025-03-23 14:42:08,065 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 14:42:08,090 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 14:42:08,091 - __main__ - INFO - - patients181
+2025-03-23 14:42:08,092 - __main__ - INFO - - medical_staff181
+2025-03-23 14:42:08,092 - __main__ - INFO - - public_health_resources181
+2025-03-23 14:42:08,093 - __main__ - INFO - - volunteers181
+2025-03-23 14:42:08,093 - __main__ - INFO - - donations181
+2025-03-23 14:42:08,094 - __main__ - INFO - - user_audit_logs181
+2025-03-23 14:42:08,094 - __main__ - INFO - - security_audit_log181
+2025-03-23 14:42:08,094 - __main__ - INFO - - users181
+2025-03-23 14:42:08,095 - __main__ - INFO - - appointments181
+2025-03-23 14:42:08,095 - __main__ - INFO - - medical_records181
+2025-03-23 14:42:08,096 - __main__ - INFO - 
+Creating database tables...
+2025-03-23 14:43:29,576 - __main__ - INFO - Tables created successfully!
+2025-03-23 14:43:29,578 - __main__ - INFO - 
+Verifying tables in database:
+2025-03-23 14:43:29,591 - __main__ - INFO - - appointments181
+2025-03-23 14:43:29,616 - __main__ - INFO -   * appointment_id: INTEGER
+2025-03-23 14:43:29,617 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 14:43:29,618 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 14:43:29,619 - __main__ - INFO -   * appointment_date: DATETIME
+2025-03-23 14:43:29,620 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,620 - __main__ - INFO -   * notes: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,621 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 14:43:29,622 - __main__ - INFO - - donations181
+2025-03-23 14:43:29,631 - __main__ - INFO -   * donation_id: INTEGER
+2025-03-23 14:43:29,632 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,633 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,634 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,635 - __main__ - INFO -   * amount: NUMERIC(10, 2)
+2025-03-23 14:43:29,636 - __main__ - INFO -   * frequency: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,636 - __main__ - INFO -   * anonymous: BIT
+2025-03-23 14:43:29,637 - __main__ - INFO -   * message: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,638 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,638 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 14:43:29,639 - __main__ - INFO - - medical_records181
+2025-03-23 14:43:29,647 - __main__ - INFO -   * record_id: INTEGER
+2025-03-23 14:43:29,648 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 14:43:29,649 - __main__ - INFO -   * diagnosis: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,650 - __main__ - INFO -   * treatment: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,651 - __main__ - INFO -   * notes: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,652 - __main__ - INFO -   * record_date: DATETIME
+2025-03-23 14:43:29,652 - __main__ - INFO - - medical_staff181
+2025-03-23 14:43:29,661 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 14:43:29,662 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,663 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,664 - __main__ - INFO -   * specialization: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,665 - __main__ - INFO -   * qualification: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,665 - __main__ - INFO -   * contact_number: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,666 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,667 - __main__ - INFO -   * hire_date: DATE
+2025-03-23 14:43:29,667 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,668 - __main__ - INFO - - patients181
+2025-03-23 14:43:29,678 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 14:43:29,679 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,679 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,680 - __main__ - INFO -   * date_of_birth: DATE
+2025-03-23 14:43:29,680 - __main__ - INFO -   * gender: VARCHAR(10) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,681 - __main__ - INFO -   * contact_number: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,682 - __main__ - INFO -   * address: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,682 - __main__ - INFO -   * medical_history: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,682 - __main__ - INFO -   * registration_date: DATETIME
+2025-03-23 14:43:29,683 - __main__ - INFO -   * last_updated: DATETIME
+2025-03-23 14:43:29,683 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,683 - __main__ - INFO -   * blood_type: VARCHAR(5) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,684 - __main__ - INFO -   * risk_level: VARCHAR(10) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,684 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,684 - __main__ - INFO - - public_health_resources181
+2025-03-23 14:43:29,691 - __main__ - INFO -   * resource_id: INTEGER
+2025-03-23 14:43:29,691 - __main__ - INFO -   * title: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,691 - __main__ - INFO -   * description: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,692 - __main__ - INFO -   * category: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,692 - __main__ - INFO -   * publication_date: DATE
+2025-03-23 14:43:29,692 - __main__ - INFO -   * location: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,693 - __main__ - INFO -   * contact_info: VARCHAR(200) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,693 - __main__ - INFO - - security_audit_log181
+2025-03-23 14:43:29,701 - __main__ - INFO -   * log_id: INTEGER
+2025-03-23 14:43:29,702 - __main__ - INFO -   * action_type: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,702 - __main__ - INFO -   * table_affected: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,703 - __main__ - INFO -   * user_name: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,703 - __main__ - INFO -   * action_date: DATETIME
+2025-03-23 14:43:29,703 - __main__ - INFO -   * affected_record_id: INTEGER
+2025-03-23 14:43:29,704 - __main__ - INFO -   * old_values: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,704 - __main__ - INFO -   * new_values: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,704 - __main__ - INFO - - user_audit_logs181
+2025-03-23 14:43:29,712 - __main__ - INFO -   * log_id: INTEGER
+2025-03-23 14:43:29,713 - __main__ - INFO -   * user_id: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,714 - __main__ - INFO -   * user_role: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,715 - __main__ - INFO -   * action_type: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,716 - __main__ - INFO -   * table_affected: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,716 - __main__ - INFO -   * record_id: INTEGER
+2025-03-23 14:43:29,716 - __main__ - INFO -   * action_timestamp: DATETIME
+2025-03-23 14:43:29,717 - __main__ - INFO -   * ip_address: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,717 - __main__ - INFO -   * details: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,717 - __main__ - INFO - - users181
+2025-03-23 14:43:29,731 - __main__ - INFO -   * user_id: INTEGER
+2025-03-23 14:43:29,731 - __main__ - INFO -   * username: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,732 - __main__ - INFO -   * password_hash: VARCHAR(255) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,732 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,733 - __main__ - INFO -   * role: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,733 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,734 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 14:43:29,734 - __main__ - INFO -   * patient_id: INTEGER
+2025-03-23 14:43:29,734 - __main__ - INFO -   * staff_id: INTEGER
+2025-03-23 14:43:29,735 - __main__ - INFO - - volunteers181
+2025-03-23 14:43:29,748 - __main__ - INFO -   * volunteer_id: INTEGER
+2025-03-23 14:43:29,748 - __main__ - INFO -   * first_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,749 - __main__ - INFO -   * last_name: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,750 - __main__ - INFO -   * email: VARCHAR(100) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,750 - __main__ - INFO -   * phone: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,751 - __main__ - INFO -   * area: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,751 - __main__ - INFO -   * availability: VARCHAR(50) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,752 - __main__ - INFO -   * message: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,752 - __main__ - INFO -   * skills: VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,752 - __main__ - INFO -   * status: VARCHAR(20) COLLATE "SQL_Latin1_General_CP1_CI_AS"
+2025-03-23 14:43:29,753 - __main__ - INFO -   * created_at: DATETIME
+2025-03-23 14:43:29,761 - __main__ - ERROR - 
+Error during initialization: (pyodbc.ProgrammingError) ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+[SQL: SELECT TOP 1 users181.user_id AS users181_user_id, users181.username AS users181_username, users181.password_hash AS users181_password_hash, users181.email AS users181_email, users181.role AS users181_role, users181.created_at AS users181_created_at, users181.last_login AS users181_last_login 
+FROM users181 
+WHERE users181.username = ?]
+[parameters: ('admin',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+pyodbc.ProgrammingError: ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 288, in <module>
+    if not User.query.filter_by(username='admin').first():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2759, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2858, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (pyodbc.ProgrammingError) ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'last_login'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+[SQL: SELECT TOP 1 users181.user_id AS users181_user_id, users181.username AS users181_username, users181.password_hash AS users181_password_hash, users181.email AS users181_email, users181.role AS users181_role, users181.created_at AS users181_created_at, users181.last_login AS users181_last_login 
+FROM users181 
+WHERE users181.username = ?]
+[parameters: ('admin',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-23 19:29:58,398 - __main__ - INFO - Testing database connection...
+2025-03-23 19:29:58,401 - __main__ - INFO - Connection string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost;DATABASE=AfricanHealthHub181;Trusted_Connection=yes
+2025-03-23 19:29:58,654 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 19:29:58,796 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 19:29:58,797 - __main__ - INFO - - patients181
+2025-03-23 19:29:58,798 - __main__ - INFO - - medical_staff181
+2025-03-23 19:29:58,798 - __main__ - INFO - - public_health_resources181
+2025-03-23 19:29:58,799 - __main__ - INFO - - volunteers181
+2025-03-23 19:29:58,800 - __main__ - INFO - - donations181
+2025-03-23 19:29:58,801 - __main__ - INFO - - user_audit_logs181
+2025-03-23 19:29:58,801 - __main__ - INFO - - security_audit_log181
+2025-03-23 19:29:58,802 - __main__ - INFO - - users181
+2025-03-23 19:29:58,803 - __main__ - INFO - - appointments181
+2025-03-23 19:29:58,804 - __main__ - INFO - - medical_records181
+2025-03-23 19:29:58,808 - __main__ - INFO - Configuring SQLAlchemy...
+2025-03-23 19:29:58,866 - __main__ - INFO - SQLAlchemy configured successfully!
+2025-03-23 19:29:58,866 - __main__ - ERROR - Error configuring SQLAlchemy: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 85, in <module>
+    with db.engine.connect() as connection:
+         ^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 709, in engine
+    return self.engines[None]
+           ^^^^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 687, in engines
+    app = current_app._get_current_object()  # type: ignore[attr-defined]
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\werkzeug\local.py", line 519, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2025-03-23 19:33:55,077 - __main__ - INFO - Testing database connection...
+2025-03-23 19:33:55,079 - __main__ - INFO - Connection string: DRIVER={SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=AfricanHealthHub181;Trusted_Connection=yes
+2025-03-23 19:34:01,737 - __main__ - ERROR - Database connection error: ('08001', '[08001] [Microsoft][ODBC SQL Server Driver][DBNETLIB]SQL Server does not exist or access denied. (17) (SQLDriverConnect); [08001] [Microsoft][ODBC SQL Server Driver][DBNETLIB]ConnectionOpen (Connect()). (67)')
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 38, in test_connection
+    conn = pyodbc.connect(connection_string, timeout=5)
+pyodbc.OperationalError: ('08001', '[08001] [Microsoft][ODBC SQL Server Driver][DBNETLIB]SQL Server does not exist or access denied. (17) (SQLDriverConnect); [08001] [Microsoft][ODBC SQL Server Driver][DBNETLIB]ConnectionOpen (Connect()). (67)')
+2025-03-23 19:34:01,739 - __main__ - ERROR - Failed to connect to the database. Please check your connection settings.
+2025-03-23 19:35:49,938 - __main__ - INFO - Testing database connection...
+2025-03-23 19:35:49,940 - __main__ - INFO - Connection string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=AMERLEY;DATABASE=AfricanHealthHub181;Trusted_Connection=yes
+2025-03-23 19:35:51,803 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 19:36:43,514 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 19:36:43,515 - __main__ - INFO - - patients181
+2025-03-23 19:36:43,516 - __main__ - INFO - - medical_staff181
+2025-03-23 19:36:43,516 - __main__ - INFO - - public_health_resources181
+2025-03-23 19:36:43,516 - __main__ - INFO - - volunteers181
+2025-03-23 19:36:43,517 - __main__ - INFO - - donations181
+2025-03-23 19:36:43,517 - __main__ - INFO - - user_audit_logs181
+2025-03-23 19:36:43,517 - __main__ - INFO - - security_audit_log181
+2025-03-23 19:36:43,518 - __main__ - INFO - - users181
+2025-03-23 19:36:43,518 - __main__ - INFO - - appointments181
+2025-03-23 19:36:43,518 - __main__ - INFO - - medical_records181
+2025-03-23 19:36:43,520 - __main__ - INFO - Configuring SQLAlchemy...
+2025-03-23 19:36:43,549 - __main__ - INFO - SQLAlchemy configured successfully!
+2025-03-23 19:36:43,549 - __main__ - ERROR - Error configuring SQLAlchemy: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 85, in <module>
+    with db.engine.connect() as connection:
+         ^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 709, in engine
+    return self.engines[None]
+           ^^^^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 687, in engines
+    app = current_app._get_current_object()  # type: ignore[attr-defined]
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\werkzeug\local.py", line 519, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2025-03-23 19:37:51,404 - __main__ - INFO - Testing database connection...
+2025-03-23 19:37:51,405 - __main__ - INFO - Connection string: Driver={ODBC Driver 17 for SQL Server};Server=AMERLEY;Database=AfricanHealthHub181;Trusted_Connection=yes;TrustServerCertificate=yes;MultipleActiveResultSets=true;
+2025-03-23 19:59:11,101 - __main__ - INFO - Direct ODBC connection successful!
+2025-03-23 19:59:11,498 - __main__ - INFO - 
+Existing tables in database:
+2025-03-23 19:59:11,499 - __main__ - INFO - - patients181
+2025-03-23 19:59:11,500 - __main__ - INFO - - medical_staff181
+2025-03-23 19:59:11,501 - __main__ - INFO - - public_health_resources181
+2025-03-23 19:59:11,502 - __main__ - INFO - - volunteers181
+2025-03-23 19:59:11,503 - __main__ - INFO - - donations181
+2025-03-23 19:59:11,504 - __main__ - INFO - - user_audit_logs181
+2025-03-23 19:59:11,505 - __main__ - INFO - - security_audit_log181
+2025-03-23 19:59:11,506 - __main__ - INFO - - users181
+2025-03-23 19:59:11,507 - __main__ - INFO - - appointments181
+2025-03-23 19:59:11,508 - __main__ - INFO - - medical_records181
+2025-03-23 19:59:11,510 - __main__ - INFO - Configuring SQLAlchemy...
+2025-03-23 19:59:11,568 - __main__ - INFO - SQLAlchemy configured successfully!
+2025-03-23 19:59:11,569 - __main__ - ERROR - Error configuring SQLAlchemy: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Traceback (most recent call last):
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\app.py", line 101, in <module>
+    with db.engine.connect() as connection:
+         ^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 709, in engine
+    return self.engines[None]
+           ^^^^^^^^^^^^
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 687, in engines
+    app = current_app._get_current_object()  # type: ignore[attr-defined]
+  File "C:\Users\Amerley\OneDrive\Desktop\advanced database projectActual\african_health_hub_flask\venv\Lib\site-packages\werkzeug\local.py", line 519, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
